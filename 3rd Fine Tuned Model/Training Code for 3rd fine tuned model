@@ -2,10 +2,10 @@ import torch
 from transformers import GPT2LMHeadModel, GPT2Tokenizer, TextDataset, DataCollatorForLanguageModeling
 from transformers import Trainer, TrainingArguments, IntervalStrategy
 
-# Load pre-trained model and tokenizer
-model_name = "gpt2"
-model = GPT2LMHeadModel.from_pretrained(model_name)
-tokenizer = GPT2Tokenizer.from_pretrained(model_name)
+# Load the model and tokenizer you want to fine-tune
+model_directory = "/users/sean/Downloads/againtunedmodel1"
+model = GPT2LMHeadModel.from_pretrained(model_directory)
+tokenizer = GPT2Tokenizer.from_pretrained(model_directory)
 
 # Path to your dataset
 file_path = "/users/Sean/Downloads/titlelesspoems.txt"
@@ -29,21 +29,20 @@ training_args = TrainingArguments(
     overwrite_output_dir=True,
     num_train_epochs=3,
     per_device_train_batch_size=32,
-    save_strategy=IntervalStrategy.EPOCH,  # Save at the end of each epoch
+    save_strategy=IntervalStrategy.EPOCH,
     save_total_limit=2,
-    evaluation_strategy=IntervalStrategy.EPOCH,  # Evaluate at the end of each epoch
+    evaluation_strategy=IntervalStrategy.EPOCH,
     learning_rate=5e-5,
     lr_scheduler_type='linear',
     warmup_steps=500,
     weight_decay=0.01,
     logging_dir='./logs',
     logging_steps=10,
-    load_best_model_at_end=True,  # Load the best model when finished training
-    metric_for_best_model="loss",  # Use loss to evaluate best model
-    greater_is_better=False,  # "loss" is not a "greater is better" metric
-    gradient_accumulation_steps=1,  # Number of updates steps to accumulate before performing a backward/update pass
+    load_best_model_at_end=True,
+    metric_for_best_model="loss",
+    greater_is_better=False,
+    gradient_accumulation_steps=1,
 )
-
 
 # Create trainer
 trainer = Trainer(
