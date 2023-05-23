@@ -1,23 +1,23 @@
-**AI Poetry Generator
+**AI Poetry Generator**
 
 The following is a series of gpt2 models trained and fine tuned on a corpus/a of original poetry with the goal of mimicking the voice of the corpus. 
 
 *
 
-**Introduction
+**Introduction**
 
 If the canonization of a writer’s work allows the work to live forever, then AI has the ability to allow for a writer’s work to live endlessly. 
 
 The goal for this project is to explore the possibilities of AI and human collaboration in the realm of creative works (poetry). 
 
-**Background 
+**Background**
 
 Created in collaboration with chatgpt the following project contains training sets, poem creator codes, and their outputs for a series of gp2 models. Each model was trained on a variant of an original corpus of around 300 single authored works (poems). 
 
 In total there are 4 different models which represent progressive sets of additional training with new perimeters during the training sessions. 
 
 
-**Contents
+**Contents**
 
 With this folder there are subfolders which contain the following 
 
