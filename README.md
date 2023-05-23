@@ -51,9 +51,8 @@ Title: Person goes to the Hospital
 **Some Highlights of the outputs**
 
 <pre>
-Some Highlights of the outputs
 
-Untitled
+<b>Untitled</b>
 
 the sonnet sleeps on the moon.
 The sun bear dreams
@@ -71,7 +70,7 @@ To the northwind the bears cubs are
 fed fresh julyberries, then turn them into july trees.
 
 
-**Untitled**
+<b>Untitled</b>
 
 I don’t know what else to do with my life.
 In my village
@@ -79,9 +78,9 @@ I’m surrounded by tall trees
 and the absence of trees
 of course means nothing.
 
-*
 
-**Untitled**
+<b>Untitled</b>
+
 
 the sun bear feels like a boss and is very
 fulfilling in his day job.
@@ -99,9 +98,9 @@ younger sun bear who is more presentable and pleasant, but
 also still hungry for attention.
 
 
-*
 
-**You know the poems of poems that have no meaning.**
+
+<b>You know the poems of poems that have no meaning.</b>
 
 You want to know what you’ve heard?
 The world you are imagining is not real.
@@ -115,7 +114,7 @@ She snatches her phone off the ground, stares at the screen, and texts back,
 with the last line: Thank you for coming.
 
 
-**The Priestess of the Bones**
+,B>The Priestess of the Bones</b>
 
 The god of the bones is
 a dog.
