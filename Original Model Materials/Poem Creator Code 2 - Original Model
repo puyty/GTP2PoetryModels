@@ -1,0 +1,62 @@
+#Creates 14 line poem on original model 
+import torch
+import random
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
+
+model_path = "/Users/sean/Downloads/gmodel1"
+
+# Load the model and tokenizer
+model = GPT2LMHeadModel.from_pretrained(model_path)
+tokenizer = GPT2Tokenizer.from_pretrained(model_path)
+
+# Set the device to use
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model.to(device)
+
+# User input for the starting word of the poem
+starting_word = input("Enter the starting word of the poem: ")
+
+# Set the number of lines
+num_lines = 14
+
+# Compose the poem
+poem = ""
+input_prompt = starting_word
+
+for line_number in range(num_lines):
+    print(f"Working on line {line_number + 1}")
+
+    generated_line = ""
+
+    # Keep generating lines until a non-blank line is composed
+    while not generated_line.strip() or len(generated_line.split()) < 5:
+        max_words_per_line = random.randint(5, 10)  # Choose a random number of words per line
+        max_length = tokenizer.max_model_input_sizes['gpt2'] if max_words_per_line > tokenizer.max_model_input_sizes['gpt2'] else max_words_per_line  # Set max_length based on random value
+
+        output = model.generate(
+            tokenizer.encode(input_prompt, return_tensors="pt").to(device),
+            max_length=max_length,
+            num_return_sequences=1,
+            pad_token_id=tokenizer.eos_token_id,
+            do_sample=True,
+            top_k=0,
+            top_p=0.85,
+            temperature=0.8,
+            repetition_penalty=1.2,  # Apply a repetition penalty
+        )
+
+        generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
+
+        # Make sure we only consider the first line of the generated text
+        generated_line = generated_text.split('\n')[0]
+
+        # Check if the generated line contains only words
+        if not all(word.isalpha() for word in generated_line.split()):
+            generated_line = ""
+
+    poem += generated_line + "\n"
+    input_prompt = generated_line.split()[-1]  # Use the last word of the line as the input for the next line
+
+# Print the composed poem
+print("\nPoem:")
+print(poem)
