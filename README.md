@@ -50,7 +50,20 @@ Title: Person goes to the Hospital
 
 **Some Highlights of the outputs**
 
-   
+<p>*the sonnet sleeps on the moon.
+ The sun bear dreams
+ of a star fruit tree.
+ In the forest trees limp
+ onto the river.
+ The sun bear can only dream about
+ the trees on his own.
+ But the man who bears
+ his fruit says theres no such thing as sunlight on
+ the moon.
+ The sky is filled with the sounds of
+ mans dying breath.
+ To the northwind the bears cubs are
+ fed fresh julyberries, then turn them into july trees.**</p> 
 the sonnet sleeps on the moon.
  The sun bear dreams
  of a star fruit tree.
