@@ -50,38 +50,28 @@ Title: Person goes to the Hospital
 
 **Some Highlights of the outputs**
 
-<p>*the sonnet sleeps on the moon.
- The sun bear dreams
- of a star fruit tree.
- In the forest trees limp
- onto the river.
- The sun bear can only dream about
- the trees on his own.
- But the man who bears
- his fruit says theres no such thing as sunlight on
- the moon.
- The sky is filled with the sounds of
- mans dying breath.
- To the northwind the bears cubs are
- fed fresh julyberries, then turn them into july trees.**</p> 
+<pre>
+Some Highlights of the outputs
+
+Untitled
+
 the sonnet sleeps on the moon.
- The sun bear dreams
- of a star fruit tree.
- In the forest trees limp
- onto the river.
- The sun bear can only dream about
- the trees on his own.
- But the man who bears
- his fruit says theres no such thing as sunlight on
- the moon.
- The sky is filled with the sounds of
- mans dying breath.
- To the northwind the bears cubs are
- fed fresh julyberries, then turn them into july trees.
+The sun bear dreams
+of a star fruit tree.
+In the forest trees limp
+onto the river.
+The sun bear can only dream about
+the trees on his own.
+But the man who bears
+his fruit says theres no such thing as sunlight on
+the moon.
+The sky is filled with the sounds of
+mans dying breath.
+To the northwind the bears cubs are
+fed fresh julyberries, then turn them into july trees.
 
-*
 
-**No Title**
+**Untitled**
 
 I don’t know what else to do with my life.
 In my village
@@ -91,28 +81,27 @@ of course means nothing.
 
 *
 
-**No Title**
+**Untitled**
 
 the sun bear feels like a boss and is very
- fulfilling in his day job.
- When the sun bears are
- busy they sell cars, and use their weekends to socialize
- with new coworkers.
- Eventually they will be in love and
- the attention will be on each other.
- The sun bear
- trades old friends to new and likes new places more.
- He likes the company of others who can relate to
- him.
- He sees himself as a better bear: a slightly
- younger sun bear who is more presentable and pleasant, but
- also still hungry for attention.
+fulfilling in his day job.
+When the sun bears are
+busy they sell cars, and use their weekends to socialize
+with new coworkers.
+Eventually they will be in love and
+the attention will be on each other.
+The sun bear
+trades old friends to new and likes new places more.
+He likes the company of others who can relate to
+him.
+He sees himself as a better bear: a slightly
+younger sun bear who is more presentable and pleasant, but
+also still hungry for attention.
 
 
 *
 
 **You know the poems of poems that have no meaning.**
-
 
 You want to know what you’ve heard?
 The world you are imagining is not real.
@@ -125,8 +114,6 @@ to the bedroom door.
 She snatches her phone off the ground, stares at the screen, and texts back,
 with the last line: Thank you for coming.
 
-*
-
 
 **The Priestess of the Bones**
 
@@ -135,18 +122,13 @@ a dog.
 
 *
 
-
 **The Biggest Problem**
 
 There are a lot of different sun bears in my workplace. I ask them why they like the sun bear-ness of the sun bear, and they say
-that because the sun bears are always wearing suits, and because the 
+that because the sun bears are always wearing suits, and because the
 sun bears can’
 
-*
-
-
 **Poem Log #3**
-
 
 I am in love with a sad poem
 that has a lot of language in it.
@@ -160,5 +142,4 @@ i am sorry that my home’s words are not my best, but i will be thankful for th
 exactly what i said to you. i am sorry
 sorry for the bear
 but I’m glad he is alive.
-
-
+</pre>
