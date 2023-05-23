@@ -30,7 +30,7 @@ With this folder there are subfolders which contain the following
 -Corpus/a: the corpus/a which the model was trained on 
 
 
-**Additional Possibilities:
+**Additional Possibilities**:
 
 Add New Corpus into the composition process - I would like to create a model which is trained on the same poetry datasets, but then the actual vocab of the output composition are based upon another corpus… ie. a poem in the style of the writer, but only using vocab from a medical dictionary, gov. doc. etc. 
 
@@ -42,13 +42,13 @@ Example:
 
 Title: Person goes to the Hospital 
 
-**User inputs reason for visit 
+-User inputs reason for visit 
 
-**Poem generates in the style of the model’s training, but only using vocab from a medical textbook. 
+-Poem generates in the style of the model’s training, but only using vocab from a medical textbook. 
 
 
 
-**Some Highlights of the outputs 
+**Some Highlights of the outputs**
 
    
 the sonnet sleeps on the moon.
@@ -68,6 +68,8 @@ the sonnet sleeps on the moon.
 
 *
 
+**No Title**
+
 I don’t know what else to do with my life.
 In my village
 I’m surrounded by tall trees
@@ -76,7 +78,7 @@ of course means nothing.
 
 *
 
-
+**No Title**
 
 the sun bear feels like a boss and is very
  fulfilling in his day job.
@@ -96,7 +98,7 @@ the sun bear feels like a boss and is very
 
 *
 
-**You know the poems of poems that have no meaning.
+**You know the poems of poems that have no meaning.**
 
 
 You want to know what you’ve heard?
@@ -113,7 +115,7 @@ with the last line: Thank you for coming.
 *
 
 
-**The Priestess of the Bones
+**The Priestess of the Bones**
 
 The god of the bones is
 a dog.
@@ -121,7 +123,7 @@ a dog.
 *
 
 
-**The Biggest Problem
+**The Biggest Problem**
 
 There are a lot of different sun bears in my workplace. I ask them why they like the sun bear-ness of the sun bear, and they say
 that because the sun bears are always wearing suits, and because the 
@@ -130,7 +132,7 @@ sun bears can’
 *
 
 
-**Poem Log #3
+**Poem Log #3**
 
 
 I am in love with a sad poem
@@ -145,6 +147,5 @@ i am sorry that my home’s words are not my best, but i will be thankful for th
 exactly what i said to you. i am sorry
 sorry for the bear
 but I’m glad he is alive.
-*
 
 
