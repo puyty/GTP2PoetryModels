@@ -1,0 +1,28 @@
+import torch
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
+
+tokenizer = GPT2Tokenizer.from_pretrained("/users/sean/Downloads/againtunedmodel1")
+model = GPT2LMHeadModel.from_pretrained("/users/sean/Downloads/againtunedmodel1")
+
+def generate_poem(first_line):
+    model.eval()
+    max_length = 10 * 14  # The maximum length of a line is 10 words and we want to generate 14 lines
+    lines = 1
+
+    input_ids = tokenizer.encode(first_line, return_tensors='pt')
+    output = model.generate(input_ids, max_length=max_length, temperature=0.9, do_sample=True)
+
+    decoded_output = tokenizer.decode(output[0])
+    poem = first_line
+
+    for word in decoded_output.split()[len(first_line.split()):]:  # We skip the first line that the user has already input
+        poem += ' ' + word
+        if word.endswith(('.', '!', '?')) or len(poem.split()) % 10 == 0:  # If the word is the end of a sentence or if the line has 10 words
+            poem += '\n'
+            lines += 1
+            if lines > 14:  # We stop adding lines when we have 14 lines
+                break
+    return poem
+
+first_line = input("Enter the first line of your poem: ")
+print(generate_poem(first_line))
