@@ -1,0 +1,35 @@
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
+
+def generate_poem(first_line):
+    model = GPT2LMHeadModel.from_pretrained("/users/sean/Downloads/gmodel1_finetuned")
+    tokenizer = GPT2Tokenizer.from_pretrained("/users/sean/Downloads/gmodel1_finetuned")
+
+    max_line_length = 10
+    max_lines = 14
+
+    poem = [first_line]
+    context = first_line
+
+    while len(poem) < max_lines:
+        input_ids = tokenizer.encode(context, return_tensors='pt')
+        output = model.generate(input_ids, max_length=200, temperature=0.9, do_sample=True, pad_token_id=tokenizer.eos_token_id)
+
+        # The generated output includes the input context, so we remove that
+        generated_text = tokenizer.decode(output[:, input_ids.shape[-1]:][0], clean_up_tokenization_spaces=True)
+        
+        # Break the generated text into lines of up to 10 words
+        words = generated_text.split()
+        while words and len(poem) < max_lines:
+            line = " ".join(words[:max_line_length])
+            poem.append(line)
+            words = words[max_line_length:]
+
+        # Use the entire poem as the next input
+        context = "\n".join(poem)
+
+    return poem
+
+first_line = input("Enter the first line of your poem: ")
+poem = generate_poem(first_line)
+for line in poem:
+    print(line)
