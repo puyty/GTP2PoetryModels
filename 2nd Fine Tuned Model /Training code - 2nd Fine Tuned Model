@@ -1,0 +1,50 @@
+#code for 2nd round of finetuning 
+from transformers import GPT2LMHeadModel, GPT2Tokenizer, TextDataset, DataCollatorForLanguageModeling, TrainingArguments, Trainer
+
+# Load the pre-trained model and tokenizer
+model = GPT2LMHeadModel.from_pretrained('/users/sean/Downloads/gmodel1_finetuned')
+tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
+
+# Load the dataset
+dataset_path = 'fodderpoemz.txt'
+dataset = TextDataset(
+    tokenizer=tokenizer,
+    file_path=dataset_path,
+    block_size=128,  # The model was trained with sequences of length 128
+)
+
+# Prepare the data collator
+data_collator = DataCollatorForLanguageModeling(
+    tokenizer=tokenizer, 
+    mlm=False,
+)
+
+# Define the training arguments
+training_args = TrainingArguments(
+    output_dir='/users/sean/Downloads/againtunedmodel1',  # The output directory
+    overwrite_output_dir=True,  # Overwrite the content of the output directory
+    num_train_epochs=3,  # Number of training epochs
+    per_device_train_batch_size=1,  # Batch size for training
+    save_steps=10_000,  # Number of updates steps before two checkpoint saves
+    save_total_limit=2,  # Limit the total amount of checkpoints. Deletes the older checkpoints.
+    evaluation_strategy="steps",  # Evaluation and save are done every eval_steps
+    eval_steps=200,  # Number of update steps between two evaluations
+    gradient_accumulation_steps=16,  # Number of updates steps to accumulate before performing a backward/update pass
+    learning_rate=5e-5,  # Learning rate
+    weight_decay=0.01,  # Weight decay if we apply some
+    lr_scheduler_type='linear',  # Learning rate scheduler
+)
+
+# Create the trainer and start training
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    data_collator=data_collator,
+    train_dataset=dataset,
+)
+
+trainer.train()
+
+# Save the fine-tuned model and the tokenizer
+model.save_pretrained('/users/sean/Downloads/againtunedmodel1')
+tokenizer.save_pretrained('/users/sean/Downloads/againtunedmodel1')
