@@ -1,0 +1,63 @@
+import torch
+from transformers import GPT2LMHeadModel, GPT2Tokenizer, TextDataset, DataCollatorForLanguageModeling
+from transformers import Trainer, TrainingArguments, IntervalStrategy
+
+# Load pre-trained model and tokenizer
+model_name = "gpt2"
+model = GPT2LMHeadModel.from_pretrained(model_name)
+tokenizer = GPT2Tokenizer.from_pretrained(model_name)
+
+# Path to your dataset
+file_path = "/users/Sean/Downloads/titlelesspoems.txt"
+
+# Create dataset
+dataset = TextDataset(
+    tokenizer=tokenizer,
+    file_path=file_path,
+    block_size=128,
+)
+
+# Define data collator
+data_collator = DataCollatorForLanguageModeling(
+    tokenizer=tokenizer, 
+    mlm=False,
+)
+
+# Define training arguments
+training_args = TrainingArguments(
+    output_dir="/users/sean/Downloads/gmodel1_finetuned",
+    overwrite_output_dir=True,
+    num_train_epochs=3,
+    per_device_train_batch_size=32,
+    save_strategy=IntervalStrategy.EPOCH,  # Save at the end of each epoch
+    save_total_limit=2,
+    evaluation_strategy=IntervalStrategy.EPOCH,  # Evaluate at the end of each epoch
+    learning_rate=5e-5,
+    lr_scheduler_type='linear',
+    warmup_steps=500,
+    weight_decay=0.01,
+    logging_dir='./logs',
+    logging_steps=10,
+    load_best_model_at_end=True,  # Load the best model when finished training
+    metric_for_best_model="loss",  # Use loss to evaluate best model
+    greater_is_better=False,  # "loss" is not a "greater is better" metric
+    gradient_accumulation_steps=1,  # Number of updates steps to accumulate before performing a backward/update pass
+)
+
+
+# Create trainer
+trainer = Trainer(
+    model=model, # The instantiated Transformers model to be trained
+    args=training_args, # Training arguments
+    data_collator=data_collator, # The function to use for collating batches
+    train_dataset=dataset, # Training dataset
+    eval_dataset=dataset,  # Evaluation dataset
+)
+
+# Fine-tuning the model
+trainer.train()
+
+# Save the fine-tuned model and the tokenizer
+save_dir = "/users/sean/Downloads/thirdgmodel"
+model.save_pretrained(save_dir)
+tokenizer.save_pretrained(save_dir)
