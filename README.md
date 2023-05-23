@@ -122,13 +122,13 @@ a dog.
 
 *
 
-**The Biggest Problem**
+<b>The Biggest Problem</b>
 
 There are a lot of different sun bears in my workplace. I ask them why they like the sun bear-ness of the sun bear, and they say
 that because the sun bears are always wearing suits, and because the
 sun bears can’
 
-**Poem Log #3**
+<b>Poem Log #3</b>
 
 I am in love with a sad poem
 that has a lot of language in it.
