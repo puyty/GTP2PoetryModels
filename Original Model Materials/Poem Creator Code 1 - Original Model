@@ -1,0 +1,52 @@
+#Creates poem on original model
+
+import torch
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
+
+model_path = "/Users/sean/Downloads/gmodel1"
+
+# Load the model and tokenizer
+model = GPT2LMHeadModel.from_pretrained(model_path)
+tokenizer = GPT2Tokenizer.from_pretrained(model_path)
+
+# Set the device to use
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model.to(device)
+
+# User input for the starting word of the poem
+starting_word = input("Enter the starting word of the poem: ")
+
+# Set the number of lines and maximum words per line
+num_lines = 14
+max_words_per_line = 100
+
+# Compose the poem
+poem = ""
+input_prompt = starting_word
+
+for line_number in range(num_lines):
+    print(f"Working on line {line_number + 1}")
+
+    generated_line = ""
+
+    # Keep generating lines until a non-blank line is composed
+    while not generated_line.strip():
+        output = model.generate(
+            tokenizer.encode(input_prompt, return_tensors="pt").to(device),
+            max_length=max_words_per_line,
+            num_return_sequences=1,
+            pad_token_id=tokenizer.eos_token_id,
+            do_sample=True,
+            top_k=0,
+            top_p=0.85,
+            temperature=0.8,
+        )
+
+        generated_line = tokenizer.decode(output[0], skip_special_tokens=True)
+
+    poem += generated_line + "\n"
+    input_prompt = generated_line.split()[-1]  # Use the last word of the line as the input for the next line
+
+# Print the composed poem
+print("\nPoem:")
+print(poem)
