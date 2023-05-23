@@ -114,7 +114,7 @@ She snatches her phone off the ground, stares at the screen, and texts back,
 with the last line: Thank you for coming.
 
 
-,B>The Priestess of the Bones</b>
+<B>The Priestess of the Bones</b>
 
 The god of the bones is
 a dog.
