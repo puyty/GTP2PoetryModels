@@ -1,0 +1,61 @@
+#Code to fine tune the orignal model. 3 epochs, additional preprocessing in corpus 
+#code for first fine tuning 
+
+from transformers import GPT2LMHeadModel, GPT2Tokenizer, TextDataset, DataCollatorForLanguageModeling, TrainingArguments, Trainer
+from sklearn.model_selection import train_test_split
+
+def load_dataset(path_to_file, tokenizer):
+    return TextDataset(
+        tokenizer=tokenizer,
+        file_path=path_to_file,
+        block_size=128
+    )
+
+# Path to your GPT-2 model
+model_path = "/users/sean/Downloads/gmodel1"
+
+# Initialize the GPT-2 model and tokenizer
+tokenizer = GPT2Tokenizer.from_pretrained(model_path)
+model = GPT2LMHeadModel.from_pretrained(model_path)
+
+# Load the dataset and split it into training and validation sets
+path_to_file = "/users/sean/Downloads/fodderpoemz.txt"
+full_dataset = load_dataset(path_to_file, tokenizer)
+
+train_size = int(0.9 * len(full_dataset))  # 90% for training
+val_size = len(full_dataset) - train_size  # remainder for validation
+
+dataset_train, dataset_val = torch.utils.data.random_split(full_dataset, [train_size, val_size])
+
+# Data collator for language modeling
+data_collator = DataCollatorForLanguageModeling(
+    tokenizer=tokenizer, mlm=False,
+)
+
+# Setup the training arguments
+training_args = TrainingArguments(
+    output_dir="./results", # The output directory
+    overwrite_output_dir=True, # Overwrite the content of the output directory
+    num_train_epochs=3, # Number of training epochs
+    per_device_train_batch_size=4, # Batch size for training
+    save_steps=10_000, # Number of updates steps before two checkpoint saves
+    save_total_limit=2, # Limit the total amount of checkpoints. Deletes the older checkpoints.
+    evaluation_strategy="epoch", # Evaluate the model after every epoch
+    learning_rate=5e-5, # Learning rate
+)
+
+# Initialize the Trainer
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    data_collator=data_collator,
+    train_dataset=dataset_train,
+    eval_dataset=dataset_val,
+)
+
+# Start the training
+trainer.train()
+
+# Save the model and tokenizer
+model.save_pretrained("/users/sean/Downloads/gmodel1_finetuned")
+tokenizer.save_pretrained("/users/sean/Downloads/gmodel1_finetuned")
