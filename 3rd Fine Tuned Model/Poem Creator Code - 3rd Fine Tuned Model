@@ -1,0 +1,43 @@
+import torch
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
+
+# Load pre-trained model and tokenizer
+model = GPT2LMHeadModel.from_pretrained("/users/sean/Downloads/thirdgmodel")
+tokenizer = GPT2Tokenizer.from_pretrained("/users/sean/Downloads/thirdgmodel")
+
+def generate_poem(first_line, num_lines=14, max_words_per_line=10):
+    poem = [first_line]
+
+    for _ in range(num_lines-1):
+        # Encode the input text
+        input_ids = tokenizer.encode(poem[-1], return_tensors='pt')
+
+        # Generate attention mask
+        attention_mask = torch.ones(input_ids.shape)
+
+        # Generate text
+        output = model.generate(input_ids, attention_mask=attention_mask, max_length=50, pad_token_id=tokenizer.eos_token_id, do_sample=True, temperature=0.9)
+
+        # Decode the generated text
+        generated_line = tokenizer.decode(output[0], skip_special_tokens=True)
+        generated_line = generated_line[len(poem[-1]):]  # Only consider the new generated part
+
+        # Limit the line to 10 words
+        words = generated_line.split()
+        if len(words) > max_words_per_line:
+            generated_line = ' '.join(words[:max_words_per_line])
+
+        # Append the generated line to the poem
+        poem.append(generated_line)
+
+    return poem
+
+# Ask the user for the first line of the poem
+first_line = input("Enter the first line of the poem: ")
+
+# Generate the poem
+poem = generate_poem(first_line)
+
+# Print the poem
+for line in poem:
+    print(line)
