@@ -46,6 +46,14 @@ Title: Person goes to the Hospital
 
 -Poem generates in the style of the model’s training, but only using vocab from a medical textbook. 
 
+Create a larger corpus of work. 
+-do additional preprocessing on the existing corpus, map out word types and sentence structures, of complete poems. Make new poems based on these add to corpus. 
+
+**Next Steps**
+
+standardize poem creation codes - create universial code and map outputs 
+Create more creation modes - users write one line, machine next etc. 
+
 
 
 **Some Highlights of the outputs**
