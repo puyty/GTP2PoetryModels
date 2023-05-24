@@ -1,0 +1,60 @@
+import torch
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
+
+# Load pre-trained model and tokenizer
+model = GPT2LMHeadModel.from_pretrained("/users/sean/Downloads/thirdmodel")
+tokenizer = GPT2Tokenizer.from_pretrained("/users/sean/Downloads/thirdmodel")
+
+# Define max token limit (for example, 1024 for GPT-2)
+max_token_limit = 1024
+
+def generate_poem(first_line, num_lines=14, max_words_per_line=10):
+    poem = [first_line]
+    input_ids = tokenizer.encode(first_line, return_tensors='pt')
+
+    for i in range(num_lines-1):
+        print(f"Working on line {i+2}...")
+
+        # Generate attention mask
+        attention_mask = torch.ones(input_ids.shape)
+
+        # Generate text
+        try:
+            output = model.generate(input_ids, attention_mask=attention_mask, max_length=max_token_limit, pad_token_id=tokenizer.eos_token_id, do_sample=True, temperature=0.9)
+        except RuntimeError:
+            print("Max token limit reached! Skipping to the next line...")
+            continue
+
+        # Decode the generated text
+        generated_line =  tokenizer.decode(output[0], skip_special_tokens=True)
+        generated_line = generated_line[len(tokenizer.decode(input_ids[0], skip_special_tokens=True)):]  # Only consider the new generated part
+
+        # Limit the line to 10 words
+        words = generated_line.split()
+        if len(words) > max_words_per_line:
+            generated_line = ' '.join(words[:max_words_per_line])
+
+        # Append the generated line to the poem
+        poem.append(generated_line)
+
+        # Encode the generated line and append to input_ids
+        new_input_ids = tokenizer.encode(generated_line, return_tensors='pt')
+
+        # Keep the most recent words up to max_token_limit
+        if input_ids.shape[1] + new_input_ids.shape[1] > max_token_limit:
+            start_index = input_ids.shape[1] + new_input_ids.shape[1] - max_token_limit
+            input_ids = torch.cat((input_ids[0, start_index:], new_input_ids[0])).unsqueeze(0)
+        else:
+            input_ids = torch.cat((input_ids[0], new_input_ids[0])).unsqueeze(0)
+
+    return poem
+
+# Ask the user for the first line of the poem
+first_line = input("Enter the first line of the poem: ")
+
+# Generate the poem
+poem = generate_poem(first_line)
+
+# Print the poem
+for line in poem:
+    print(line)
