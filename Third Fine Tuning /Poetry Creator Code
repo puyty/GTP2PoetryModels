@@ -1,9 +1,10 @@
 import torch
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
+import re
 
 # Load pre-trained model and tokenizer
-model = GPT2LMHeadModel.from_pretrained("/users/sean/Downloads/thirdmodel")
 tokenizer = GPT2Tokenizer.from_pretrained("/users/sean/Downloads/thirdmodel")
+model = GPT2LMHeadModel.from_pretrained("/users/sean/Downloads/thirdmodel")
 
 # Define max token limit (for example, 1024 for GPT-2)
 max_token_limit = 1024
@@ -22,12 +23,16 @@ def generate_poem(first_line, num_lines=14, max_words_per_line=10):
         try:
             output = model.generate(input_ids, attention_mask=attention_mask, max_length=max_token_limit, pad_token_id=tokenizer.eos_token_id, do_sample=True, temperature=0.9)
         except RuntimeError:
-            print("Max token limit reached! Skipping to the next line...")
-            continue
+            print("Max token limit reached! Trimming input to fit the limit...")
+            input_ids = input_ids[:, -max_token_limit:]  # Keep only the most recent tokens
+            output = model.generate(input_ids, attention_mask=attention_mask, max_length=max_token_limit, pad_token_id=tokenizer.eos_token_id, do_sample=True, temperature=0.9)
 
         # Decode the generated text
-        generated_line =  tokenizer.decode(output[0], skip_special_tokens=True)
+        generated_line = tokenizer.decode(output[0], skip_special_tokens=True)
         generated_line = generated_line[len(tokenizer.decode(input_ids[0], skip_special_tokens=True)):]  # Only consider the new generated part
+
+        # Remove undesired characters
+        generated_line = re.sub(r'[-\d]', '', generated_line)
 
         # Limit the line to 10 words
         words = generated_line.split()
@@ -42,10 +47,10 @@ def generate_poem(first_line, num_lines=14, max_words_per_line=10):
 
         # Keep the most recent words up to max_token_limit
         if input_ids.shape[1] + new_input_ids.shape[1] > max_token_limit:
-            start_index = input_ids.shape[1] + new_input_ids.shape[1] - max_token_limit
-            input_ids = torch.cat((input_ids[0, start_index:], new_input_ids[0])).unsqueeze(0)
+            input_ids = input_ids[:, -max_token_limit:]  # Keep only the most recent tokens
+            input_ids = torch.cat((input_ids, new_input_ids), dim=1)
         else:
-            input_ids = torch.cat((input_ids[0], new_input_ids[0])).unsqueeze(0)
+            input_ids = torch.cat((input_ids, new_input_ids), dim=1)
 
     return poem
 
