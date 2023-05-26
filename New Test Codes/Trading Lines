@@ -3,9 +3,12 @@ import torch
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 import re
 
-# Load pre-trained model and tokenizer
-tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
-model = GPT2LMHeadModel.from_pretrained("gpt2")
+# Replace the path with the actual location of your trained model files
+model_path = "/users/sean/Downloads/thirdgmodel"
+
+tokenizer = GPT2Tokenizer.from_pretrained(model_path)
+model = GPT2LMHeadModel.from_pretrained(model_path)
+
 
 # Define max token limit (for example, 1024 for GPT-2)
 max_token_limit = 1024
