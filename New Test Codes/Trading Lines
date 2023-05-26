@@ -1,0 +1,70 @@
+#human writes one line program does the next till 14 
+import torch
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
+import re
+
+# Load pre-trained model and tokenizer
+tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
+model = GPT2LMHeadModel.from_pretrained("gpt2")
+
+# Define max token limit (for example, 1024 for GPT-2)
+max_token_limit = 1024
+
+def generate_poem(first_line, num_lines=14, max_words_per_line=10):
+    poem = [first_line]
+    input_ids = tokenizer.encode(first_line, return_tensors='pt')
+
+    for i in range(num_lines-1):
+        if i % 2 == 0: # This will be the AI's turn to write a line
+            print(f"Working on line {i+2}...")
+
+            # Generate text
+            try:
+                output = model.generate(input_ids, max_length=max_token_limit, pad_token_id=tokenizer.eos_token_id, do_sample=True, temperature=0.9)
+            except RuntimeError:
+                print("Max token limit reached! Trimming input to fit the limit...")
+                input_ids = input_ids[:, -max_token_limit:]  # Keep only the most recent tokens
+                output = model.generate(input_ids, max_length=max_token_limit, pad_token_id=tokenizer.eos_token_id, do_sample=True, temperature=0.9)
+
+            # Decode the generated text
+            generated_line = tokenizer.decode(output[0], skip_special_tokens=True)
+            generated_line = generated_line[len(tokenizer.decode(input_ids[0], skip_special_tokens=True)):]  # Only consider the new generated part
+
+            # Remove undesired characters
+            generated_line = re.sub(r'[-\d]', '', generated_line)
+
+            # Limit the line to max_words_per_line words
+            words = generated_line.split()
+            if len(words) > max_words_per_line:
+                generated_line = ' '.join(words[:max_words_per_line])
+
+            print(generated_line)
+
+        else: # This will be the user's turn to write a line
+            generated_line = input(f"Enter line {i+2} of the poem: ")
+
+        # Append the generated line to the poem
+        poem.append(generated_line)
+
+        # Encode the generated line and append to input_ids
+        new_input_ids = tokenizer.encode(generated_line, return_tensors='pt')
+
+        # Keep the most recent words up to max_token_limit
+        if input_ids.shape[1] + new_input_ids.shape[1] > max_token_limit:
+            input_ids = input_ids[:, -max_token_limit:]  # Keep only the most recent tokens
+            input_ids = torch.cat((input_ids, new_input_ids), dim=1)
+        else:
+            input_ids = torch.cat((input_ids, new_input_ids), dim=1)
+
+    return poem
+
+# Ask the user for the first line of the poem
+first_line = input("Enter the first line of the poem: ")
+
+# Generate the poem
+poem = generate_poem(first_line)
+
+# Print the entire poem
+print("\nHere's the entire poem:")
+for line in poem:
+    print(line)
